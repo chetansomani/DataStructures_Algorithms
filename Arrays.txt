@@ -1,0 +1,108 @@
+//Data Structures - Arrays
+Union and Intersection of two Arrays
+public void mtd_UIArrays(int[] arr1, int[] arr2){
+	//Base Case
+	if(arr1 == null || arr2 == null){
+		return;
+	}
+
+	//Union of two sorted arrays
+	int[] arrU = new int[arr1.length+arr2.length];
+	Union(arrU,arr1,arr2);
+}
+
+
+Union(int[] arr, int[] arr1, int[] arr2){
+	int i= 0; int j= 0; int k=0;
+	while(i< arr1.length && j < arr2.length){
+		if(arr1[i] < arr2[j]){
+			arr[k] = arr1[i];
+			i++;
+		}else{
+			arr[k] = arr2[j];
+			j++;
+		}
+		k++;
+	}
+
+	while(i < arr1.length){
+		arr[k] = arr1[i];
+		i++;
+	}
+
+	while(j < arr2.length){
+		arr[k] = arr2[j];
+		j++;
+	}
+}
+
+//Note: If the difference in the length of two arrays is significant,
+//then all we can do is search each element of the smaller array in
+//larger array using binary search. Complexity: Min(mlogn, nlogm)
+
+//Segregate 0's,1's and 2's
+public void mtd_Segregate(int[] a){
+	if(a == null){
+		return;
+	}
+
+	int low = 0; int high = a.length-1;
+	int mid = 0;
+
+	while(mid <= high){
+		if(a[mid] == 0){
+			swap(a[low],a[mid]);
+			low++;
+			mid++;
+		}else if(a[mid] == 1){
+			mid++;
+		}else if(a[mid] == 2){
+			swap(a[mid], a[high]);
+			high--;
+		}
+	}
+}
+
+//Minimum length subarray to be sorted in order to make entire array sorted
+public void mtd_minLength(int[] arr){
+	if(arr == null){
+		return;
+	}
+
+	int s = 0; int e = 0;
+	//finding s
+	for(int i=0; i< arr.length; i++){
+		if(arr[i] < arr[i+1]){
+			break;
+		}
+	}
+	s = i;
+
+	//Finding e
+	for(int i=arr.length-1; i > 0; i--){
+		if(arr[i] > arr[i-1]){
+			break;
+		}
+	}
+	e = i;
+
+	//Find if they are any elements which are less than s from 0 to s-1
+	int min = arr[s];
+	for(int i=0; i< s; i++){
+		if(min > arr[i]){
+			min = arr[i];
+		}
+	}
+
+	s = i;
+    
+    //find if they are any elements which are greater than e from e to arr.length-1
+    int max = arr[e];
+    for(int i=e; i< arr.length-1; i++){
+    	if(max < arr[i]){
+    		max = arr[i];
+    	}
+    }
+
+    e = i;
+}

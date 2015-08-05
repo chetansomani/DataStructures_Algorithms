@@ -1,0 +1,111 @@
+//Binary Search Tree
+//Search
+public bool mtd_Search(BinaryTree tree, int key){
+	if(tree == null){
+		return false;
+	}
+
+	if(tree.data == key){
+		return true;
+	}
+
+	if(key < tree.data){
+		mtd_Search(tree.left, key);
+	}else{
+		mtd_Search(tree.right, key);
+	}
+}
+
+//Insert
+public void mtd_Insert(BinaryTree tree, int key){
+	if(tree == null){
+		return new BinaryTree(key);
+	}
+
+	if(key < tree.data){
+		tree.left = mtd_Insert(tree.left, key);
+	}else{
+		tree.right = mtd_Insert(tree.right, key);
+	}
+
+	return tree;
+}
+
+
+
+//Get the Minimum Value in Binary Tree
+public int mtd_MinValue(BinaryTree tree){
+	if(tree == null){
+		return -1;
+	}	
+
+	BinaryTree current = tree;
+
+	while(current.left != null){
+		current = current.left;
+	}
+
+	return current.data;
+}
+
+
+//Check If Binary Tree is Binary Search Tree
+public bool mtd_BSTCheck(BinaryTree tree, int min, int max){
+	if(tree == null){
+		return true;
+	}
+
+	if(tree.data >= min && tree.data <= max){
+		return mtd_BSTCheck(tree.left, min, tree.data-1) &&
+		mtd_BSTCheck(tree.right, tree.data+1, max);
+	}
+	else{
+		return false;
+	}
+}
+
+
+//Inorder Traversal Of BST without Recursion
+public void mtd_InorderTraversal(BinaryTree tree){
+	if(tree == null){
+		return;
+	}
+
+	Stack<BinaryTree> inorderStack = new Stack<BinaryTree>();
+	inorderStack.push(tree);
+
+	BinaryTree current = tree;
+	//Add all the left nodes first
+	while(current != null){
+		current = current.left;
+		inorderStack.push(current);
+	}
+
+	//Now add all the right nodes and before adding print the current nodes
+	BinaryTree current = inorderStack.pop();
+	while(inorderStack != null){
+		System.out.println(current.data);
+		if(current.right != null){
+			inorderStack.push(current.right);
+		}else{
+			current = inorderStack.pop();
+		}
+	}
+}	
+
+
+//Root to leaf sum equal to a number
+public bool mtd_checkSum(BinaryTree tree, int sum){
+	if(tree == null || sum < 0){
+		return false;
+	}
+	sum = sum - tree.data;
+	if(sum == 0 && tree.left == null && tree.right == null){
+		return true;
+	}else{
+		mtd_checkSum(tree.left, sum);
+		mtd_checkSum(tree.right, sum);
+	}
+	return false;
+}
+

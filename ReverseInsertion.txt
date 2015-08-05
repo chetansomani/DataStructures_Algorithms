@@ -1,0 +1,118 @@
+public int revere_Insertion(int[] T1, int[] T2, int[,] A, int j, int v, int u, int i, string elementIn)
+        {
+            try
+            {
+                /*Here elementIn is the Team Id in which ith Element is going to be Inserted
+                 * and we need to make sure, we replace an element from one of the Team members
+                 * of a Team which is full with ith element and the jth element will be added to 
+                 * the other team which is not full. 
+                 */
+                int counter = 0;
+                int[] B= {-1,-1};
+                if (T1[0] != -1 && T2[0] != -1 && v != 0 && u != 0)
+                {
+                    for (int l = 0; l < v; l++)
+                    {
+                        //Here, if there are more than 1 element in T2 which has conflict with ith element, then return 0.
+                        if (A[T2[l], i] == 1)
+                        {
+                            counter++;
+                            B[0] = T2[l];
+                            B[1] = l;
+                            if (counter > 1)
+                            {
+                                return 0;
+                            }
+                        }
+
+                    }
+                    //Here, ith Element doesnot have conflict with any element in T2. Thus, we need to check an element which doesnot
+                    // Have conflict with jth element and rest of the elements in T1. If the element selected has conflict with either of
+                    // them return 0.
+                    if (B[0] == -1)
+                    {
+                        int count = 0;
+                        for (int l = 0; l < v; l++)
+                        {
+                            int testV = 0;
+                            if (A[T2[l], j] != 1)
+                            {
+                                //Here, Checking if the element in T2 doesnot have conflict with jth element. If it has with any element in
+                                // T1. If it has, then we will select a new element from T2.
+                                for (int k = 0; k < u; k++)
+                                {
+                                    if (A[T1[k], T2[l]] == 1)
+                                    {
+                                        count++;
+                                        break;
+
+                                    }
+                                    else
+                                    {
+                                        testV++;
+                                    }
+
+                                }
+                                if (testV == u)
+                                {
+                                    int temp = T2[l];
+                                    T1[u] = temp;
+                                    u++;
+                                    T1[u] = j;
+                                    T2[l] = i;
+                                    u++;
+                                    return 1;
+                                }
+
+                            }
+
+
+                        }
+                        if (count == v)
+                        {
+                            return 0;
+                        }
+                        else
+                        {
+                            return 1;
+                        }
+
+                    }
+                    else
+                    {
+                        if (A[B[0], j] != -1)
+                        {
+                            for (int l = 0; l < u; l++)
+                            {
+
+                                if (A[T1[l], j] == 1 && A[T1[l], B[0]] == 1)
+                                {
+                                    return 0;
+                                }
+
+                            }
+
+                            T1[u] = j;
+                            u++;
+                            T1[u] = B[0];
+                            T2[B[1]] = i;
+                            u++;
+                            return 1;
+                        }
+                    }
+                }
+                return 1;
+            }
+            catch (System.IO.IOException)
+            {
+                Console.Write("In Reverse Insertion: Exception in reading data from file");
+                return -1;
+            }
+            catch (Exception)
+            {
+                Console.Write("In Reverse Insertion: Exception occurred..Please, try again later..");
+                return -1;
+            }
+
+           
+        }

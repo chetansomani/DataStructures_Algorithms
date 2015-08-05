@@ -1,0 +1,35 @@
+Node* InsertNth(Node *head, int data, int position)
+{
+    Node *nwNode = new Node;
+    nwNode -> data = data;
+  // Complete this method only
+  // Do not write main function. 
+    if(position < 0)
+    {
+       return head;
+    }
+    
+    if(position == 0)
+    {
+      nwNode -> next = head;    
+      head = nwNode;
+    }
+    else 
+    {
+       Node *current = head;
+       int count = 0;
+       while(current != NULL)
+       {
+         if(count == (position-1))
+         {
+            nwNode -> next = current->next;
+            current -> next = nwNode;
+            return head;
+         }
+           ++count;
+           current = current -> next;
+       }
+    }
+    
+     return head;
+}

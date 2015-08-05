@@ -1,0 +1,171 @@
+//Matrices
+//Search for element in matrix
+public bool mtd_SearchMatrix(int[][] matrix, int x){
+	if(matrix == null || x < 0){
+		return false;
+	}
+
+	int i = 0; int j = n-1;
+	while( i < n && j >= 0){
+		if(matrix[i][j] == x){
+			return true;
+		}else if(matrix[i][j] > x){
+			j--;
+		}else{
+			i++;
+		}
+	}
+
+	return false;
+}
+
+
+//Print elements in spiral form - lR - represents last row index and lC represents last column index.
+public void mtd_elementsSpiral(int lR, int lC, int[][] matrix){
+	if(matrix == null){
+		return;
+	}
+
+	int r = 0; int c = 0;
+
+	while(r < lR && c < lC){
+
+		//Print the first row
+		for(int i= c; i< lC; i++){
+			System.out.println(matrix[r][i]);
+		}
+		//Incrment the row value
+		r++;
+
+		//Print the last column
+		for(int i= r; i< lR; i++){
+			System.out.println(matrix[r][c]);
+		}
+		//Decrement the last column value
+		lC--;
+
+		//print the last row
+		if(r < lR){
+			for(int i=lC; i>=c; i--){
+			  System.out.println(matrix[lR][i]);
+			}
+			//Decrement the last row value
+			lR--;
+		}
+		//print the first column
+		if(c < lC){
+			for(int i=lR; i>=r; i--){
+			  System.out.println(matrix[i][c]);
+			}
+			//Increment the first column value
+			c++;
+		}
+	}
+}
+
+//Boolean Matrix
+public void mtd_Matrix(bool[][] matrix, int rows, int columns){
+	if(rows <0 || columns < 0){
+		return;
+	}
+
+	int roWs[] = new int[rows];
+	int colUmns[] = new int[columns];
+
+	//Initialize the arrays
+	for(int i=0; i< rows; i++){
+		roWs[i] = 0;
+	}
+
+	for(int i=0; i< columns; i++){
+		colUmns[i] = 0;
+	}
+
+	//Iterate through matrix and find the rows and columns where the value is true
+	for(int i=0; i< rows; i++){
+		for(int j=0; i< columns; j++){
+			if(matrix[i][j]){
+				roWs[i] = 1;
+				colUmns[j] = 1;
+			}
+		}
+	}
+
+	//Iterate through the arrays and modify the matrix
+	for(int i=0; i< rows; i++){
+		for(int j=0; i< columns; j++){
+			if(roWs[i] == 1 || colUmns[j] == 1){
+				matrix[i][j] = true;
+			}
+		}
+	}
+}	
+
+//Print unique rows in boolean matrix
+public void mtd_Unique(bool[][] matrix, int rows, int columns){
+	if(rows <0 || columns <0){
+		return;
+	}
+
+	Hashtable hash = new Hashtable(); //Store the index of the unique rows of the matrix in array
+	bool[] roWs = new bool[rows]; //Required to store the index of unique rows
+
+	//Initialize the array to 0
+	for(int i=0; i< rows; i++){
+		roWs[i] = false;
+	}
+
+	//Iterate through matrix and store the respective count of values of a specific row
+	for(int i=0; i< rows; i++){
+		int count =0;
+		for(int j=0; i< columns; j++){
+			if(matrix[i][j]){
+				count++;
+			}
+		}
+		if(hash[count] == null){
+			hash[count] = i;
+			roWs[i] = true;
+		}
+	}
+  
+  	//Delete hash table
+  	hash = null;
+
+	//Print the unique rows of the matrix
+	for(int i=0; i< rows; i++){
+		if(roWs[i]){
+			for(int j=0; i< columns; j++){
+				System.out.println(matrix[i][j]);
+			}
+		}
+	}
+}
+
+
+//Find row with maximum no of 1s
+public int mtd_RowMax(bool[][] matrix, int rows, int columns){
+	if(rows <0 || columns <0){
+		return;
+	}
+	
+	int index = 0;
+	int max = 0;
+	//Iterate through matrix and store the respective count of values of a specific row
+	for(int i=0; i< rows; i++){
+		int count =0;
+		for(int j=0; i< columns; j++){
+			if(matrix[i][j]){
+				count++;
+			}
+		}
+		if(max < count){
+			max = count;
+			index = i;
+		}
+	}
+
+	return index;
+}
+
+

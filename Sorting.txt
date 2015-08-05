@@ -1,0 +1,201 @@
+//Insertion Sort
+public void mtd_insertionSort(int[] arr,int n){
+	if(arr == null || n == 0){
+		return;
+	}
+	//Start with element at position 2 and compare with all the elements
+	//at position less than 2
+	for(int i=1;i<n;i++){
+		int key = arr[i];
+		int j= i-1;
+		//Comparing the key with all the elements beneath its position,
+		//If I find any element greater than key, move the element to the right place.
+		while(j>=0 && arr[j] > key){
+			arr[j+1] = arr[j];
+			j = j-1;
+		}
+
+		//Atlast placing the key to its right position
+		arr[j+1] = key;
+	}
+}
+
+//Bucket Sort -- Here, considering the values are floating point
+Class bucket extends ArrayList<float>{
+	//TODO
+}
+public void mtd_bucketSort(float[] arr, int n){
+	if(arr == null || n == 0){
+		return;
+	}
+
+	//Create an Array List of Array List. where each array
+	bucket[] buc = new bucket[n];
+	//Initialize the bucket with null values
+	for(int i=0; i<n; i++){
+		buc[i] = null;
+	}
+
+	//Now add each element in a bucket given by index n*arr[i]
+	for(int i=0; i<n; i++){
+		int val = n*arr[i];
+		if(buc[val] == null){
+			ArrayList<float> arrF= new ArrayList<float>();
+			arrF.push(arr[i]);
+			buc[val] = arrF;
+		}else{
+			buc[val].push(arr[i]);
+		}
+	}
+
+	//Now sort each ArrayList of a bucket
+	for(int i=0; i<n; i++){
+		ArrayList.sort(buc[i]);
+	}
+
+	//Now Integrate all the arraylist
+	int k=0;
+	for(int i=0;i<n;i++){
+		if(buc[i] != null){
+			for(int j=0; j< buc[i].Count; j++)
+				arr[k] = buc[i].get(j);
+				k++;
+		}
+	}
+}
+
+
+//Merge Sort
+public void mtd_MergeSort(int[] arr, int low, int high){
+	if(arr == null){
+		return;
+	}
+
+	if(low < high){
+		int mid = low+high/2;
+		//Merge Sort Left Array
+		mtd_MergeSort(arr,low,mid);
+		//MergeSort Right Array
+		mtd_MergeSort(arr,mid+1,high);
+		//Merge both sub arrays
+		mtd_merge(arr,low,mid,high);
+	}
+}
+
+public void mtd_merge(int[] arr, int low, int mid, int high){
+	//We need to create two temporary arrays of size equal to mid-low+1 and high-mid
+	int[] arr1 = new int[mid-low+1];
+	int[] arr2 = new int[high-mid];	
+
+	//Now, copy all the elements from arr to arr1 and arr2
+	for(int i=low;i<mid;i++){
+		arr1[i] = arr[low+i];
+	}
+	for(int i=mid+1; i<high;i++){
+		arr2[i] = arr[mid+1+i];
+	}
+
+	int n1 = mid-low+1; int n2 = high-mid;
+	int i = 0; int j=0; int k = low;
+	//Now sort both the arrays
+	while(i < n1 && j < n2){
+		if(arr1[i] <= arr2[j]){
+			arr[k] = arr1[i];
+			i++;
+		}else{
+			arr[k] = arr2[j];
+			j++;
+		}
+		k++;
+	}
+
+
+	//If array 1 has any elements left, then add them to array arr
+	while(i < n1){
+		arr[k] = arr1[i];
+		k++; i++;
+	}
+
+	//If array 2 has any elements left, then add them to array
+	while(j < n2){
+		arr[k] = arr2[j];
+		k++; j++;
+	}
+}
+
+
+//Counting Sort
+public void mtd_CountingSort(int[] arr, int n, int range){
+	if(arr == null || n <= 0 || range <=0){
+		return;
+	}
+
+	//Create an Count array of size equal to range
+	int[] count = new int[range];
+	//Initialize the count array to 0
+	for(int i=0; i< range; i++){
+		count[i] = 0;
+	}
+
+	//Now Count the numbers occurence in arr and add the count to count array
+	for(int i=0; i<n;i++){
+		count[arr[i]]++;
+	}
+
+	//Now add the count to all the elements incremeting the value from previous element
+	for(int i=1;i<range;i++){
+		count[i] = count[i] + count[i-1];
+	}
+
+	//Now output the values to the output array - We need output array and we can't modify the actual array - arr
+	//As we need elements from arr to keep them in sorted order.
+	int[] output = new int[n];
+
+	//Now add the sorted list into output array.
+	for(int i=0;i<n;i++){
+		output[count[arr[i]]-1] = arr[i];
+		count[arr[i]]--;
+	}
+
+	//Print the output array or you can replace the elements of arr by copying them from output array
+	for(int i=0;i<n;i++){
+		arr[i] = output[i];
+	}
+
+	return;
+}
+
+
+//Quick sort
+public void mtd_quickSort(int[] arr, int low, int high){
+	if(low < high){
+		//find the partition index
+		int p = mtd_partitionIndex(arr,low,high);
+		//Recursively sort the sub arrays
+		mtd_quickSort(arr,low,p-1);
+		mtd_quickSort(arr,p+1,high);
+	}
+}
+
+//Partition Method - It depends on which index you are considering as index, Here,
+// the partition index is the last index
+public int mtd_partitionIndex(int[] arr, int low, int high){
+	int partiOn = arr[high];	
+	int i = low-1;
+	for(int j= low; j< high;j++){
+		if(arr[j] <= x){
+			i++;
+			Swap(arr[i], arr[j]);
+		}
+	}
+
+	Swap(arr[i+1], arr[high]);
+	return arr[i+1];
+}
+
+//Swapping
+public void Swap(int x, int y){
+	int temp = x;
+	x= y;
+	y = temp;
+}s

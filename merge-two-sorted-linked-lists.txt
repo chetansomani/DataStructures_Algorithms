@@ -1,0 +1,137 @@
+#include <iostream>
+#include<cstdio>
+#include<cstdlib>
+using namespace std;
+struct Node
+{
+	int data;
+	Node *next;
+};
+/*
+  Merge two sorted lists A and B as one linked list
+  Node is defined as 
+  struct Node
+  {
+     int data;
+     struct Node *next;
+  }
+*/
+Node* MergeLists(Node *headA, Node* headB)
+{
+  // This is a "method-only" submission. 
+  // You only need to complete this method 
+    if(headA == NULL)
+        return headB;
+    if(headB == NULL)
+        return headA;
+    if(headA == NULL && headB == NULL)
+        return headA;
+    
+    Node *current = new Node;
+    
+    //Start with
+    if(headA -> data < headB -> data)
+    {
+        current->data = headA->data;
+        headA = headA -> next;
+    }
+    else if(headA->data > headB -> data)
+    {
+         current->data = headB->data;
+         headB = headB ->next;
+    }
+    else
+    {
+        current->data = headB->data;
+        headA = headA -> next;
+        headB = headB ->next;
+    }
+    
+    current -> next = NULL;
+    Node *head = current;
+    
+    while(headA != NULL && headB != NULL)
+    {
+        Node *nwNode = new Node;
+        if(headA->data < headB -> data)
+        {
+            nwNode->data = headA->data;
+            headA = headA -> next;
+        }
+        else if(headA->data > headB -> data)
+        {
+             nwNode->data = headB->data;
+             headB = headB ->next;
+        }
+        else
+        {
+            nwNode->data = headB->data;
+            headA = headA -> next;
+            headB = headB ->next;
+        }
+        
+        nwNode -> next = NULL;
+        current -> next = nwNode;
+        current = nwNode;
+    }
+    
+    if(headA != NULL)
+    {
+       current -> next = headA;
+    }
+    
+    if(headB != NULL)
+    {
+       current -> next = headB;
+    }
+    
+    
+    return head;
+}
+
+void Print(Node *head)
+{
+	bool ok = false;
+	while(head != NULL)
+	{
+		if(ok)cout<<" ";
+		else ok = true;
+		cout<<head->data;
+		head = head->next;
+	}
+        cout<<"\n";
+}
+Node* Insert(Node *head,int x)
+{
+   Node *temp = new Node();
+   temp->data = x;
+   temp->next = NULL;
+   if(head == NULL) 
+   {
+       return temp;
+   }
+   Node *temp1;
+   for(temp1 = head;temp1->next!=NULL;temp1= temp1->next);
+   temp1->next = temp;return head;
+}
+int main()
+{
+	int t;
+	cin>>t;
+	while(t-- >0)
+	{
+		Node *A = NULL;
+		Node *B = NULL;
+		int m;cin>>m;
+		while(m--){
+			int x; cin>>x;
+			A = Insert(A,x);}
+		int n; cin>>n;
+        while(n--){
+			int y;cin>>y;
+			B = Insert(B,y);
+		}
+		A = MergeLists(A,B);
+		Print(A);
+	}
+}

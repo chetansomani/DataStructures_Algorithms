@@ -1,0 +1,9 @@
+Routing Algorithms:
+Graphs are the best source to define the algorithm.
+Vertices- Hosts + routers
+Directed Edges- Direct Physical or wireless connections
+
+
+Needleman-Wunsch Score- Similarity of strings - Two strings are
+similar if the score is minimum. Need to find an algorithm for this.
+

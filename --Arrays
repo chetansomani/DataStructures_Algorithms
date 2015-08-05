@@ -1,0 +1,97 @@
+//Arrays
+//Maximum difference in index j and i such that value of arr[j]>arr[i]
+public int mtd_maxDiff(int[] arr, int n){
+	if(arr == null || n <= 0){
+		return -1;
+	}
+
+	//Create two arrays 1. Containing the smallest value among two values 2. Containing the maximum values among two values
+	int[] min = new int[n];
+	int[] max = new int[n];
+
+	//Initialize both the arrays
+	for(int i=0; i<n; i++){
+		min[i] = 0;
+		max[i] = 0;
+	}
+
+	//Fill the min array
+	min[0] = arr[0];
+	for(int i=1; i<n; i++){
+		min[i] = mtd_minValue(arr[i], min[i-1]);
+	}
+
+	//Fill the max array
+	max[0] = arr[n-1];
+	for(int i=n-2; i>=0; i--){
+		max[i] = mtd_maxValue(arr[i], max[i+1]);
+	}
+
+	//Comparing both the arrays and finding the maximum difference among both the arrays
+	int i=1; int j=1; int maxDiff = 0;
+	while(j < n && i < n){
+		if(min[i] < max[j]){
+			maxDiff = mtd_maxValue(maxDiff, j-i);
+			i++;
+		}else{
+			j++;
+		}
+	}
+
+	return maxDiff;
+}
+
+public int mtd_minValue(int x, int y){
+	return (x < y) ? x : y;
+}
+
+public int mtd_maxValue(int x, int y){
+	return (x > y) ? x : y;
+}
+
+
+//Find the smallest number than cannot be represented by subset of an array
+public int mtd_smallestNo(int[] arr, int n){
+	if(arr != null || n <= 0){
+		return -1;
+	}
+
+	int res = 1;
+
+	//Increment through the array
+	for(int i=0; i<n && arr[i] <= res; i++){
+		res = res + arr[i];
+	}
+
+	return res;
+}
+
+//Find position of 0 to be replaced by 1 to get maximum no of 1s
+public int mtd_position(int[] arr){
+	if(arr == null){
+		return -1;
+	}
+
+	int max = 0; int count = 0; int pos = 0;
+	int noofZeros = 0;
+	for(int i=0; i<n; i++){
+		if(arr[i] == 1){
+			count++;
+		}else{
+			if(noOfZeros == 1){
+				if(count > max){
+					max = count;
+					pos = i-1;
+				}
+				count = 0;
+				noOfZeros = 0;	
+			}else{
+				noOfZeros++;
+				count++;
+				pos = i;
+			}
+		}
+	}
+
+	return pos;
+}
